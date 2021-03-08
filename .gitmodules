@@ -4,3 +4,6 @@
 [submodule "study_oap_program1"]
 	path = study_oap_program1
 	url = https://github.com/QWertyIX/study_oap_program1
+[submodule "OAP_tell_about"]
+	path = OAP_tell_about
+	url = https://github.com/StudLabs/OAP_tell_about
