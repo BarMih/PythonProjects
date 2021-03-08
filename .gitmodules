@@ -1,3 +1,6 @@
 [submodule "ImperiumOfMankind"]
 	path = ImperiumOfMankind
 	url = https://github.com/God-Emperor-of-Mankind/ImperiumOfMankind
+[submodule "study_oap_program1"]
+	path = study_oap_program1
+	url = https://github.com/QWertyIX/study_oap_program1
