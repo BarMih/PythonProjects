@@ -69,6 +69,8 @@ def pravilnoLi(name, flt, mns, null, one):
         if name[0] == '-' and mns is False:
             name = None
             warning = print('Вы ввели отрицательное значение. Повторите попытку ввода.')
+        elif name[0] == '-' and mns is True:
+            name
         # Цифра с плавающей запятой
         elif tochka is True:
             if float(name) % 2 != float(0) and float(name) % 2 != float(1):
