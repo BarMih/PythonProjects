@@ -1,10 +1,10 @@
-acces = input('Врата Дурина, Государя Мории. Говори, друг, и входи.\n')
-
-if acces.lower() == 'друг':
-    print('Гномы решат тебе задачу.\n')
-else:
-    print('acces denied\n')
-    acces = denied
+# acces = input('Врата Дурина, Государя Мории. Говори, друг, и входи.\n')
+#
+# if acces.lower() == 'друг':
+#     print('Гномы решат тебе задачу.\n')
+# else:
+#     print('acces denied\n')
+#     acces = denied
 
 # обьявляем массив жескостей
 array = []
@@ -30,7 +30,7 @@ def pravilnoLi(name, flt, mns, null, one):
                     if flt is False and mns is False and null is False:
                         name = None
                         warning = print('Вы ввели 0. Необходимо как минимум 2 элемента. Повторите попытку ввода.')
-                    else:
+                    elif null is False and one is True:
                         name = None
                         warning = print('Вы ввели 0. Необходимо ввести корректную величину. Повторите попытку ввода.')
                     # else:
@@ -99,6 +99,11 @@ def hotiteLi(text):
     return m
 
 
+def roundNum(num, kolZnakPoslZap):
+    num = round(num * 10 ** int(kolZnakPoslZap))/(10 ** int(kolZnakPoslZap))
+    return num
+
+
 # заполняем массив жесткостей
 def masiveGestkosti():
     el = None
@@ -138,7 +143,6 @@ def masiveYsiliy():
                 if vvodY != None:
                     arrayUsiliy.append(vvodY)
     else:
-        # elif m == '0' or m.lower() == 'нет':
         for i in range(int(len(array) - 1)):
             arrayUsiliy.append(1)
     arrayUsiliy.append(0)
@@ -161,7 +165,6 @@ def masiveLength():
                 if vvodL != None:
                     L.append(vvodL)
     else:
-        # elif m == '0' or m.lower() == 'нет':
         for i in range(int(len(array))):
             L.append(1)
     print('')
@@ -237,9 +240,7 @@ def makeMatricaGestcosti():
     return arrayGes
 
 
-# print(float(arrayG[0][1]))
-# print(array[0])
-# print(float(array[0])*float(arrayG[0][1]))
+
 makeMatricaGestcosti()
 
 
@@ -325,15 +326,14 @@ arr1 = []
 arr = []
 for i in range(len(arrayUsiliy) - 2):
     arr.append([])
-    for j in range(len(arrayUsiliy) - 2):
-        arr[i].append([])
+
 
 
 def makeArr():
     for i in range(1, len(arrayUsiliy) - 1):
         for j in range(1, len(arrayUsiliy) - 1):
             for k in range(1):
-                arr[i - 1][j - 1].append(matGes[i][j])
+                arr[i - 1].append(matGes[i][j])
     return arr
 
 
@@ -358,21 +358,33 @@ print('')
 
 def mnogitel(i, elem):
     for j in range(len(elem)):
-        for k in range(1):
-            if i == j:
-                m = elem[i - 1][j][k] / elem[i][j][k]
+        if i == j:
+            m = elem[i - 1][j] / elem[i][j]
     return m
+
+
+okr = False
+m = hotiteLi('Хотите округлить результаты? ')
+if m == '1' or m.lower() == 'да':
+    okr = True
+    kolZnakPoslZap = None
+    while kolZnakPoslZap == None:
+        kolZnakPoslZap = input('Сколько знаков оставить после запятой? ')
+        kolZnakPoslZap = pravilnoLi(kolZnakPoslZap, False, False, False, True)
 
 
 def triangleArray():
     for i in range(len(arr) - 1, 0, -1):
         mn = mnogitel(i, arr)
         b = float(arrU[i - 1]) - float(arrU[i]) * mn
+        if okr is True:
+            b = roundNum(b, kolZnakPoslZap)
         arrU[i - 1] = b
         for j in range(len(arr[i]) - 1, -1, -1):
-            for k in range(1):
-                a = arr[i - 1][j][k] - arr[i][j][k] * mn
-                arr[i - 1][j][k] = a
+            a = arr[i - 1][j] - arr[i][j] * mn
+            if okr is True:
+                a = roundNum(a, kolZnakPoslZap)
+            arr[i - 1][j] = a
     return arr
 
 
@@ -401,13 +413,16 @@ def reshenieSlay():
     arrayReshenie.append(0)
     for i in range(len(arrU)):
         for j in range(len(arrU)):
-            for k in range(1):
-                if i == j and i == 0:
-                    resh = arrU[i] / arr[i][j][k]
-                    uLoc = resh
-                elif i == j:
-                    resh = (arrU[i] - uLoc * arr[i][j - 1][k]) / arr[i][j][k]
-                    uLoc = resh
+            if i == j and i == 0:
+                resh = arrU[i] / arr[i][j]
+                if okr is True:
+                    resh = roundNum(resh, kolZnakPoslZap)
+                uLoc = resh
+            elif i == j:
+                resh = (arrU[i] - uLoc * arr[i][j - 1]) / arr[i][j]
+                if okr is True:
+                    resh = roundNum(resh, kolZnakPoslZap)
+                uLoc = resh
         arrayReshenie.append(resh)
     arrayReshenie.append(0)
     return arrayReshenie
@@ -456,6 +471,8 @@ def sluchPeremeshenie():
                         masssiveFunFormForEachElementInTochka(x)
                         PeremeshenieElementaVTochke = N[element - 1][0] * U[element - 1] + N[element - 1][1] * U[
                             element]
+                        if okr is True:
+                            PeremeshenieElementaVTochke = roundNum(PeremeshenieElementaVTochke, kolZnakPoslZap)
                         print(PeremeshenieElementaVTochke)
                         m = hotiteLi('Хотите снова найти перемещение в ' + str(element) + ' элементе? ')
                     else:
@@ -504,6 +521,8 @@ def makeArrayRaspredelenya():
         for j in range(len(arrT)):
             masssiveFunFormForEachElementInTochka(arrT[j])
             PeremeshenieElementaVTochke = N[i][0] * U[i] + N[i][1] * U[i + 1]
+            if okr is True:
+                PeremeshenieElementaVTochke = roundNum(PeremeshenieElementaVTochke, kolZnakPoslZap)
             arrRas[i].append(PeremeshenieElementaVTochke)
     return arrRas
 
@@ -511,7 +530,7 @@ def makeArrayRaspredelenya():
 m = hotiteLi('Хотите посмотреть распределение перемещений по элементам? ')
 if m == '1' or m.lower() == 'да':
     makeArrayRaspredelenya()
-print(arrRas)
+    print(arrRas)
 
 print('')
 
@@ -519,6 +538,8 @@ arrRas = []
 for i in range(len(array)):
     arrRas.append([])
 
+
+a = roundNum(40, 2)
 
 arrT = []
 Max = ['','','']
@@ -529,12 +550,15 @@ def seekMax():
         for j in range(len(arrT)):
             masssiveFunFormForEachElementInTochka(arrT[j])
             PeremeshenieElementaVTochke = N[i][0] * U[i] + N[i][1] * U[i + 1]
+            if okr is True:
+                PeremeshenieElementaVTochke = roundNum(PeremeshenieElementaVTochke, kolZnakPoslZap)
             arrRas[i].append(PeremeshenieElementaVTochke)
     Max[0] = arrRas[0][0]
-    print(arrRas)
     for i in range(len(arrRas)):
         for j in range(len(arrRas[i]) - 1):
             if arrRas[i][j + 1] > arrRas[i][j]:
+                if okr is True:
+                    arrRas[i][j + 1] = roundNum(arrRas[i][j + 1], kolZnakPoslZap)
                 Max[0] = arrRas[i][j + 1]
                 Max[1] = i
                 Max[2] = j
@@ -545,5 +569,5 @@ m = hotiteLi('Хотите найти максимальное перемеще�
 if m == '1' or m.lower() == 'да':
     max = seekMax()
     print('Максимальное значение перемещения ' + str(max[0]) + ' в элементе ' + str(max[1]) + ' в точке ' + str(max[2]))
-elif m == '0' or m.lower() == 'нет':
-    print('\n' + 'Конец решения')
+
+print('\n' + 'Конец решения')
