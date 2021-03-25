@@ -1,10 +1,10 @@
-# acces = input('Врата Дурина, Государя Мории. Говори, друг, и входи.\n')
-#
-# if acces.lower() == 'друг':
-#     print('Гномы решат тебе задачу.\n')
-# else:
-#     print('acces denied\n')
-#     acces = denied
+acces = input('Врата Дурина, Государя Мории. Говори, друг, и входи.\n')
+
+if acces.lower() == 'друг':
+    print('Гномы решат тебе задачу.\n')
+else:
+    print('acces denied\n')
+    acces = denied
 
 # обьявляем массив жескостей
 array = []
